@@ -195,7 +195,7 @@ def TFmodel(Xsample,Ysample,activation,lamb,learningRate,thetavalue,sparsity_ind
                     w2_gra_v = bare_w2_gra.numpy()
                     b2_gra_v = bare_b2_gra.numpy()
 
-                    yhat_atProposition = matmul( activation( matmul(examx, w1_atProposition) + b1_atProposition ) , w2_normalized_atProposition ) + b2_atProposition
+                    yhat_atProposition = matmul(activation(matmul(examx, w1_atProposition) + b1_atProposition ) , w2_normalized_atProposition ) + b2_atProposition
 
                     bareCost_atProposition = sqrt(sum(square(yhat_atProposition-examy), axis=0))
 

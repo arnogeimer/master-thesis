@@ -9,6 +9,7 @@ from sklearn import linear_model
 import pickle
 #import Main
 import cvxopt
+import tqdm
 
 import time
 
@@ -147,7 +148,7 @@ class Model:
     def simulate(self, count): #Simulate /count instances of theta and corresponding Y for X, s
         for i in range(count):
             sparsity_indexes = random.sample(range(1, self.p1), self.s)
-            theta = np.array([thetavalue*np.int(i in sparsity_indexes) for i in range(0, self.p1)])
+            theta = np.array([thetavalue*int(i in sparsity_indexes) for i in range(0, self.p1)])
             Y = self.X.dot(theta) + noise*np.random.normal(0, noise_variance, size=(self.n))
             self.Ys.append(Y)
             self.thetas.append(theta)
@@ -233,7 +234,7 @@ class Model:
                 maxiter = 1500
 
             for i in range(self.simulcount): #loop over thetas/ys
-                pred_err_max = np.infty
+                pred_err_max = np.inf
                 y_pred = Xtest.dot(self.thetas[i])
                 for lamda in lamrange:
                     clf = linear_model.Lasso(alpha=lamda, fit_intercept = True, positive = False, warm_start = True, max_iter = maxiter)
@@ -252,7 +253,7 @@ class Model:
         self.bestlamdapred()
         
         self.intercepts_pred = []
-        for i in range(self.simulcount):
+        for i in tqdm.trange(self.simulcount):
             if self.method == 'LASSO':
                 clf = linear_model.Lasso(alpha=self.best_lamda_preds[i], fit_intercept = True, positive = False)
                 clf.fit(self.X, self.Ys[i])
@@ -359,7 +360,7 @@ def pickleopen(n, p, s, method):
 method = 'LASSO'
 function = FPR
 #trus = getpredictiveRates(function,method,n,p1range,srange)
-trus[-2][-2] = 1
+#trus[-2][-2] = 1
 mini, maxi = round(np.min(trus), 3), round(np.max(trus), 3)
 plt.pyplot.pcolormesh(n/np.array(p1range), srange/n, trus)
 #plt.pyplot.pcolormesh(trus)
