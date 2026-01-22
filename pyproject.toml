@@ -12,6 +12,6 @@ dependencies = [
     "scikit-learn>=1.8.0",
     "scipy>=1.17.0",
     "statsmodels>=0.14.6",
-    "tensorflow>=2.20.0",
+    "tensorflow[and-cuda]>=2.20.0",
     "tqdm>=4.67.1",
 ]

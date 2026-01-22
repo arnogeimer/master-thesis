@@ -42,6 +42,7 @@ class Tfmodel(object):
         self.w2 = tf.Variable(w2_ini ,shape=(2*p1,1), trainable=True)
         self.b2 = tf.Variable(b2_ini ,shape=(1,1), trainable=True)
 
+    @tf.function
     def forward(self):
 
         # new structure in TF2.0 to track the parts of computation that will need backprop
@@ -69,7 +70,7 @@ class Tfmodel(object):
 
         del g
 
-        self.w1.assign_add(-self.learningRate*w1_gra.numpy())
+        self.w1.assign_sub(self.learningRate*w1_gra)
         # update b1 with constraints
         # first we compute the bounding envolope
 
@@ -89,8 +90,8 @@ class Tfmodel(object):
 
         #update b1, w2, b2
         self.b1.assign(proposed_b1)
-        self.w2.assign_add(-self.learningRate*w2_gra)
-        self.b2.assign_add(-self.learningRate*b2_gra)
+        self.w2.assign_sub(self.learningRate*w2_gra)
+        self.b2.assign_sub(self.learningRate*b2_gra)
 
         # return a list of gradients
         #return cost, [w1_gra,b1_gra,w2_gra,b2_gra]
