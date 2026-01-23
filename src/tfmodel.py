@@ -1,7 +1,6 @@
+from typing import List, Tuple
 import numpy as np
 import tensorflow as tf
-import tqdm
-from matplotlib import pyplot as plt
 
 def extracttheta(w1):
     p1 = w1.shape[0]
@@ -97,8 +96,8 @@ class Tfmodel(object):
         #return cost, [w1_gra,b1_gra,w2_gra,b2_gra]
         return cost
 
-    def train(self, iterations: int = 100):
-        for _ in tqdm.trange(iterations):      # steepest descent part
+    def train(self, iterations: int = 100) -> Tuple[List, np.array]:
+        for _ in range(iterations):      # steepest descent part
             cost = self.forward()
             self.loss.append(cost.numpy()[0])
 

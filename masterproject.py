@@ -154,7 +154,7 @@ class Model:
             self.thetas.append(theta)
             self.sparseindexes.append(sparsity_indexes)
             self.simulcount += 1
-            
+
     def approxlam0(self): #Simulate /sims H0's and calculate corresponding lamda0, then lamdaqut = (1-alpha)quantile
         
         lamda0s = []
@@ -166,7 +166,7 @@ class Model:
                 Ym = Y - 1/np.sqrt(self.n)*np.mean(Y)
                 lam0 = np.sqrt(self.n)*np.linalg.norm(self.X.T.dot(Ym), np.inf)/np.linalg.norm(Ym, 2)
                 lamda0s.append(lam0)
-                
+
         if self.method == 'LASSO':
              for i in range(sims):
                 Y = np.random.normal(0, noise_variance, size=(self.n))
@@ -179,7 +179,7 @@ class Model:
                 Y = np.random.normal(0, noise_variance, size=(self.n))
                 lam0 = np.linalg.norm(self.X.T.dot(Y), np.inf)/np.linalg.norm(Y, 2)
                 lamda0s.append(lam0)
-                
+
         self.lamdaqut = np.quantile(lamda0s, 1-alpha)
         #print('\u03BB =', self.lamdaqut)
             
@@ -283,7 +283,7 @@ def LASSOPATH(x, j):
         thetahats.append(thetahat)
     for entry in np.matrix(thetahats).T:
         plt.pyplot.plot(lamrange, entry.T)
-        
+
 n = 100
 p1range = np.flip((1000/np.linspace(1, 10, 20)).astype(int))
 srange = np.linspace(0, 99, 50).astype(int)
